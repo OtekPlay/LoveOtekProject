@@ -1,0 +1,6 @@
+name: LoveOtekProject
+version: 1.0
+description: Wszyscy kochaja otka!
+website: www.otekplay.pl
+main: pl.otekplay.loveotek.main.Core
+author: Otekplay

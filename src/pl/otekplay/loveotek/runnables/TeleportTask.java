@@ -5,7 +5,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.otekplay.loveotek.basic.Replacer;
+import pl.otekplay.loveotek.basic.User;
+import pl.otekplay.loveotek.enums.UserRank;
 import pl.otekplay.loveotek.main.Core;
+import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.TeleportSettings;
 
 import java.util.List;
@@ -55,8 +58,8 @@ public class TeleportTask extends BukkitRunnable {
             return;
         }
         uniqueIds.add(p.getUniqueId());
+        User user = Users.get(p.getUniqueId());
         p.sendMessage(TeleportSettings.MESSAGE_TELEPORT_START);
-        Replacer.build(TeleportSettings.MESSAGE_TELEPORT_WAIT).add("%seconds%", 5).send(p);
-        Bukkit.getScheduler().runTaskLater(Core.getInstance(), new TeleportTask(p.getUniqueId(), p.getLocation(), loc, 5), 20);
+        Bukkit.getScheduler().runTaskLater(Core.getInstance(), new TeleportTask(p.getUniqueId(), p.getLocation(), loc, (user.hasPermissions(UserRank.HELPER) ? 1 : 5)), 20);
     }
 }

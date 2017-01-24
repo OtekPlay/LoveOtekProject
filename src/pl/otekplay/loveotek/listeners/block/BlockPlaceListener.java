@@ -21,7 +21,7 @@ public class BlockPlaceListener implements Listener {
         Player p = event.getPlayer();
         Block block = event.getBlock();
         Location loc = block.getLocation();
-        if (LocationUtil.isCuboid(p, loc)) {
+        if (LocationUtil.canBuild(p, loc)) {
             event.setCancelled(true);
             return;
         }

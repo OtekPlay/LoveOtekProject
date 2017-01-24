@@ -9,8 +9,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import pl.otekplay.loveotek.basic.Cuboid;
 import pl.otekplay.loveotek.basic.User;
+import pl.otekplay.loveotek.commands.player.guild.subs.InfoArgCommand;
 import pl.otekplay.loveotek.enums.UserRank;
 import pl.otekplay.loveotek.main.Cuboids;
+import pl.otekplay.loveotek.main.Guilds;
 import pl.otekplay.loveotek.main.Teleporter;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.CuboidSettings;
@@ -29,6 +31,16 @@ public class PlayerInteractListener implements Listener {
         Block block = event.getClickedBlock();
         if (block == null) {
             return;
+        }
+        if(block.getType() == Material.DRAGON_EGG){
+            Cuboid cuboid = Cuboids.cub(block.getLocation());
+            if(cuboid != null) {
+                if(cuboid.isGuildTerrain()) {
+                    InfoArgCommand.showInfoAboutGuild(p, Guilds.tag(cuboid.getKey()));
+                    event.setCancelled(true);
+                    return;
+                }
+            }
         }
         if (user.hasPermissions(UserRank.MODERATOR)) {
             if (block.getType() == Material.CHEST) {

@@ -29,17 +29,19 @@ public class GlobalSettings {
     public static String MESSAGE_SERVER_TIMINGS_FAILED = "&4Wystapil problem z timingsami.";
     public static List<String> MESSAGE_SERVER_PERFORMANCE_INFO = Arrays.asList(
             "&4Informacje o serwerze:",
-            "TPS: %tps%",
-            "Pamiec wolna: %freememory%",
-            "Pamiec zajeta: %reservememory%",
-            "Pamiec cala: %totalmemory%",
-            "Chunki: %chunks%",
-            "Entites: %entities%",
-            "Gracze: %players%",
-            "Watki: %threads%",
-            "Rdzenie: %cores%",
-            ""
+            "&4TPS: %tps%",
+            "&4Pamiec wolna: %freememory%",
+            "&4Pamiec zajeta: %reservememory%",
+            "&4Pamiec cala: %totalmemory%",
+            "&4Chunki: %chunks%",
+            "&4Entites: %entities%",
+            "&4LivingEntites: %liveentities%",
+            "&4Gracze: %players%",
+            "&4Watki: %threads%",
+            "&4Rdzenie: %cores%"
     );
+    public static String MESSAGE_SERVER_SAVE_PLAYERS = "&4Zapisywanie graczy zajelo: %players% ms.";
+    public static String MESSAGE_SERVER_SAVE_WORLD = "&4Zapisywanie map zajelo %maps% ms.";
 
 
 }

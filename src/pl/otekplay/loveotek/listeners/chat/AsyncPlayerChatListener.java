@@ -33,6 +33,7 @@ public class AsyncPlayerChatListener implements Listener {
             if (!Chat.mode()) {
                 p.sendMessage(ChatSettings.MESSAGE_CHAT_DISABLED);
                 event.setCancelled(true);
+                return;
             }
             ChatUser chat = Chat.get(p.getUniqueId());
             if (!chat.canSend()) {

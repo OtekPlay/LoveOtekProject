@@ -14,7 +14,7 @@ import pl.otekplay.loveotek.storage.CuboidSettings;
 public class LocationUtil {
 
 
-    public static boolean isCuboid(Player p, Location loc) {
+    public static boolean canBuild(Player p, Location loc) {
         if (Users.get(p.getUniqueId()).hasPermissions(UserRank.HEADADMIN)) {
             return false;
         }
@@ -33,5 +33,24 @@ public class LocationUtil {
         }
         return false;
     }
+
+    public static boolean canUseBucket(Player p, Location location) {
+        if (Users.get(p.getUniqueId()).hasPermissions(UserRank.HEADADMIN)) {
+            return true;
+        }
+        if (!Cuboids.inside(location)) {
+            return false;
+        }
+        Cuboid cuboid = Cuboids.cub(location);
+        if (!cuboid.isGuildTerrain()) {
+            return false;
+        }
+        Guild guild = Guilds.tag(cuboid.getKey());
+        if(guild.isMember(p.getUniqueId())){
+            return true;
+        }
+        return false;
+    }
+
 
 }

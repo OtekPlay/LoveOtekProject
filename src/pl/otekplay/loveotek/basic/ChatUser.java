@@ -17,6 +17,7 @@ public class ChatUser {
     private final List<UUID> ignoredUsers = new ArrayList<>();
     private boolean privateMessages = true;
     private long lastMessage = 0;
+    private UUID lastMessager;
 
 
     public boolean canSend(){

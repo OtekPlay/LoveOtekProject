@@ -5,8 +5,8 @@ import pl.otekplay.loveotek.api.commands.MainCommand;
 import pl.otekplay.loveotek.basic.CommandInfo;
 import pl.otekplay.loveotek.basic.Replacer;
 import pl.otekplay.loveotek.basic.User;
-import pl.otekplay.loveotek.commands.admin.subs.OpenArgCommand;
-import pl.otekplay.loveotek.commands.admin.subs.SaveArgCommand;
+import pl.otekplay.loveotek.commands.admin.backup.subs.OpenArgCommand;
+import pl.otekplay.loveotek.commands.admin.backup.subs.SaveArgCommand;
 import pl.otekplay.loveotek.enums.UserRank;
 import pl.otekplay.loveotek.main.Backups;
 import pl.otekplay.loveotek.main.Users;
@@ -33,6 +33,10 @@ public class BackupCommand implements MainCommand {
             return;
         }
         User user = Users.get(name);
+        if (!user.isOnline()) {
+            Replacer.build(GlobalSettings.MESSAGE_PLAYER_IS_OFFLINE).add("%name%", user.getName()).send(player);
+            return;
+        }
         Backups.menu(player,user.getUniqueID());
     }
 }

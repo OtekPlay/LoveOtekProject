@@ -17,9 +17,10 @@ import pl.otekplay.loveotek.utils.FileUtil;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class CommandManager {
-    private final Collection<MainCommand> commands = new ArrayList<>();
+    private final Collection<MainCommand> commands = new CopyOnWriteArrayList<>();
     private final SimpleCommandMap map = (SimpleCommandMap) initCommandMap();
     private File folder;
 
@@ -51,6 +52,7 @@ public class CommandManager {
 
 
     private void createFiles() {
+        folder =     FileUtil.createFolder(new File(FileUtil.createFolder(Core.getInstance().getDataFolder()),"commands"));
         commands.forEach(command -> saveCommandFile(command));
     }
 
@@ -68,10 +70,10 @@ public class CommandManager {
     private void saveCommandFile(MainCommand command) {
         try {
             CommandInfo info = command.getDefaultInfo();
-            File file = new File(folder, info.getName() + ".yml");
-            if (!file.exists()) {
-                file.createNewFile();
+            if(info == null){
+                System.out.println("Klasa "+command.getClass().getSimpleName()+" nie ma defaultowego commandinfo.");
             }
+            File file = FileUtil.createFile(new File(folder, info.getName() + ".yml"));
             YamlConfiguration yaml = new YamlConfiguration();
             yaml.addDefault("Name", info.getName());
             yaml.addDefault("Rank", info.getRank().name());

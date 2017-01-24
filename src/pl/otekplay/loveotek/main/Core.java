@@ -7,9 +7,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.otekplay.loveotek.commands.admin.backup.BackupCommand;
+import pl.otekplay.loveotek.commands.admin.chat.ChatCommand;
 import pl.otekplay.loveotek.commands.admin.group.GroupCommand;
+import pl.otekplay.loveotek.commands.admin.performance.PerformanceCommand;
 import pl.otekplay.loveotek.commands.admin.root.RootCommand;
-import pl.otekplay.loveotek.commands.admin.stop.StopCommand;
+import pl.otekplay.loveotek.commands.admin.server.SaveCommand;
+import pl.otekplay.loveotek.commands.admin.server.StopCommand;
 import pl.otekplay.loveotek.commands.admin.fly.FlyCommand;
 import pl.otekplay.loveotek.commands.admin.gamemode.GamemodeCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.ClearInventoryCommand;
@@ -20,22 +23,25 @@ import pl.otekplay.loveotek.commands.admin.teleport.GoCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.RandomCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.SummonCommand;
 import pl.otekplay.loveotek.commands.admin.timings.TimingsCommand;
+import pl.otekplay.loveotek.commands.admin.tnt.CreeperCommand;
+import pl.otekplay.loveotek.commands.admin.tnt.TnTCommand;
 import pl.otekplay.loveotek.commands.admin.vanish.VanishCommand;
-import pl.otekplay.loveotek.commands.guild.normal.GuildCommand;
+import pl.otekplay.loveotek.commands.player.chat.PrivateMessageCommand;
+import pl.otekplay.loveotek.commands.player.guild.GuildCommand;
 import pl.otekplay.loveotek.commands.player.deposit.DepositCommand;
 import pl.otekplay.loveotek.commands.player.drop.DropCommand;
 import pl.otekplay.loveotek.commands.player.history.HistoryCommand;
 import pl.otekplay.loveotek.commands.player.home.HomeCommand;
 import pl.otekplay.loveotek.commands.player.home.SetHomeCommand;
+import pl.otekplay.loveotek.commands.player.chat.MessageCommand;
+import pl.otekplay.loveotek.commands.player.chat.ReplyCommand;
 import pl.otekplay.loveotek.commands.player.ranking.RankingCommand;
 import pl.otekplay.loveotek.commands.player.ranking.TopCommand;
 import pl.otekplay.loveotek.commands.player.spawn.SetSpawnCommand;
 import pl.otekplay.loveotek.commands.player.spawn.SpawnCommand;
 import pl.otekplay.loveotek.commands.player.teleport.TeleportAcceptCommand;
 import pl.otekplay.loveotek.commands.player.teleport.TeleportRequestCommand;
-import pl.otekplay.loveotek.listeners.block.BeaconEffectListener;
-import pl.otekplay.loveotek.listeners.block.BlockBreakListener;
-import pl.otekplay.loveotek.listeners.block.BlockPlaceListener;
+import pl.otekplay.loveotek.listeners.block.*;
 import pl.otekplay.loveotek.listeners.chat.AsyncPlayerChatListener;
 import pl.otekplay.loveotek.listeners.entity.EntityDamageByEntityListener;
 import pl.otekplay.loveotek.listeners.entity.EntityDamageListener;
@@ -83,6 +89,8 @@ public class Core extends JavaPlugin {
     private final DropManager dropManager = new DropManager();
     @Getter(AccessLevel.PROTECTED)
     private final GeneratorManager generatorManager = new GeneratorManager();
+    @Getter
+    private final CobbleXManager cobbleXManager = new CobbleXManager();
 
     @Override
     public void onLoad() {
@@ -101,7 +109,7 @@ public class Core extends JavaPlugin {
 
 
     private void init() {
-        ((SimplePluginManager)Bukkit.getPluginManager()).useTimings(true);
+        ((SimplePluginManager) Bukkit.getPluginManager()).useTimings(true);
     }
 
     private void initSettings() {
@@ -148,6 +156,14 @@ public class Core extends JavaPlugin {
         manager.add(new OpenInventoryCommand());
         manager.add(new EnderchestCommand());
         manager.add(new ClearInventoryCommand());
+        manager.add(new TnTCommand());
+        manager.add(new PerformanceCommand());
+        manager.add(new MessageCommand());
+        manager.add(new ReplyCommand());
+        manager.add(new ChatCommand());
+        manager.add(new PrivateMessageCommand());
+        manager.add(new SaveCommand());
+        manager.add(new CreeperCommand());
     }
 
     private void initListeners() {
@@ -168,7 +184,13 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new PlayerDeathListener(), this);
         pm.registerEvents(new FoodLevelChangeListener(), this);
         pm.registerEvents(new AsyncPlayerChatListener(), this);
-        pm.registerEvents(new EntityExplodeListener(),this);
+        pm.registerEvents(new EntityExplodeListener(), this);
+        pm.registerEvents(new BlockPistonExtendListener(),this);
+        pm.registerEvents(new BlockPsyhicListener(),this);
+        pm.registerEvents(new PlayerBucketEmptyListener(),this);
+        pm.registerEvents(new PlayerBucketFillListener(),this);
+        pm.registerEvents(new BlockFromToListener(),this);
+        pm.registerEvents(new PlayerInteractEntityListener(),this);
     }
 
     private void initFactories() {
@@ -176,6 +198,7 @@ public class Core extends JavaPlugin {
         getRankingManager().init();
         getDropManager().init();
         getGeneratorManager().init();
+        getCobbleXManager().init();
     }
 
     private void initRunnables() {

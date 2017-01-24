@@ -32,7 +32,7 @@ public class BlockBreakListener implements Listener {
             return;
         }
         Location loc = block.getLocation();
-        if (LocationUtil.isCuboid(p, loc)) {
+        if (LocationUtil.canBuild(p, loc)) {
             event.setCancelled(true);
             return;
         }

@@ -7,6 +7,8 @@ import pl.otekplay.loveotek.main.Core;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class ConfigUtil {
@@ -24,15 +26,22 @@ public class ConfigUtil {
                 if (field.getType() == String.class) {
                     field.set(field, ChatUtil.fixColors((String) configuration.get(field.getName())));
                 } else if (field.getType() == List.class) {
-                    if(field.getGenericType() == String.class) {
-                        List<String> list = configuration.getStringList(field.getName());
-                        for (int i = 0; i < list.size(); i++) {
-                            list.set(i, ChatUtil.fixColors(list.get(i)));
+                    Type type = field.getGenericType();
+                    if(type instanceof ParameterizedType){
+                        ParameterizedType pt = (ParameterizedType) type;
+                        for(Type t:pt.getActualTypeArguments()){
+                            if(t == String.class) {
+                                List<String> list = configuration.getStringList(field.getName());
+                                for (int i = 0; i < list.size(); i++) {
+                                    list.set(i, ChatUtil.fixColors(list.get(i)));
+                                }
+                                field.set(field, list);
+                            }else if(t == Integer.class){
+                                field.set(field, configuration.getIntegerList(field.getName()));
+                            }
                         }
-                        field.set(field, list);
-                    }else if(field.getGenericType() == Integer.class){
-                        field.set(field, configuration.getIntegerList(field.getName()));
                     }
+
                 } else {
                     field.set(field, configuration.get(field.getName()));
                 }

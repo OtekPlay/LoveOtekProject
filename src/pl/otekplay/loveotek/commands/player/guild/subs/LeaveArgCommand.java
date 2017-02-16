@@ -8,7 +8,6 @@ import pl.otekplay.loveotek.basic.User;
 import pl.otekplay.loveotek.main.Rankings;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class LeaveArgCommand implements SubCommand {
     @Override
@@ -31,7 +30,7 @@ public class LeaveArgCommand implements SubCommand {
         guild.removeMember(player.getUniqueId());
         user.setGuild(null);
         Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_LEAVE).add("%nick%", user.getName()).add("%tag%", guild.getTag()).broadcast();
-        TagUtil.updateBoard(player);
+        user.updateTag();
         Rankings.sortGuilds();
     }
 }

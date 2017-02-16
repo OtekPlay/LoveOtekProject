@@ -42,6 +42,7 @@ public class GlobalSettings {
     );
     public static String MESSAGE_SERVER_SAVE_PLAYERS = "&4Zapisywanie graczy zajelo: %players% ms.";
     public static String MESSAGE_SERVER_SAVE_WORLD = "&4Zapisywanie map zajelo %maps% ms.";
+    public static int CLEAR_ITEM_LIVED_TICKS = 20*60;
 
 
 }

@@ -135,12 +135,4 @@ public class TagUtil {
     }
 
 
-    public static void updateBoard(Guild guild) {
-        for (UUID uuid : guild.getMembers().keySet()) {
-            User user = Users.get(uuid);
-            if (user.isOnline()) {
-                TagUtil.updateBoard(user.getPlayer());
-            }
-        }
-    }
 }

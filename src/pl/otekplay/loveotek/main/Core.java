@@ -8,16 +8,16 @@ import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.otekplay.loveotek.commands.admin.backup.BackupCommand;
 import pl.otekplay.loveotek.commands.admin.chat.ChatCommand;
+import pl.otekplay.loveotek.commands.admin.fly.FlyCommand;
+import pl.otekplay.loveotek.commands.admin.gamemode.GamemodeCommand;
 import pl.otekplay.loveotek.commands.admin.group.GroupCommand;
+import pl.otekplay.loveotek.commands.admin.inventory.ClearInventoryCommand;
+import pl.otekplay.loveotek.commands.admin.inventory.EnderchestCommand;
+import pl.otekplay.loveotek.commands.admin.inventory.OpenInventoryCommand;
 import pl.otekplay.loveotek.commands.admin.performance.PerformanceCommand;
 import pl.otekplay.loveotek.commands.admin.root.RootCommand;
 import pl.otekplay.loveotek.commands.admin.server.SaveCommand;
 import pl.otekplay.loveotek.commands.admin.server.StopCommand;
-import pl.otekplay.loveotek.commands.admin.fly.FlyCommand;
-import pl.otekplay.loveotek.commands.admin.gamemode.GamemodeCommand;
-import pl.otekplay.loveotek.commands.admin.inventory.ClearInventoryCommand;
-import pl.otekplay.loveotek.commands.admin.inventory.EnderchestCommand;
-import pl.otekplay.loveotek.commands.admin.inventory.OpenInventoryCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.CordsCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.GoCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.RandomCommand;
@@ -26,15 +26,19 @@ import pl.otekplay.loveotek.commands.admin.timings.TimingsCommand;
 import pl.otekplay.loveotek.commands.admin.tnt.CreeperCommand;
 import pl.otekplay.loveotek.commands.admin.tnt.TnTCommand;
 import pl.otekplay.loveotek.commands.admin.vanish.VanishCommand;
+import pl.otekplay.loveotek.commands.player.chat.MessageCommand;
 import pl.otekplay.loveotek.commands.player.chat.PrivateMessageCommand;
-import pl.otekplay.loveotek.commands.player.guild.GuildCommand;
+import pl.otekplay.loveotek.commands.player.chat.ReplyCommand;
+import pl.otekplay.loveotek.commands.player.cobblex.CobblexCommand;
+import pl.otekplay.loveotek.commands.player.csgo.ChestCommand;
 import pl.otekplay.loveotek.commands.player.deposit.DepositCommand;
 import pl.otekplay.loveotek.commands.player.drop.DropCommand;
+import pl.otekplay.loveotek.commands.player.guild.GuildCommand;
+import pl.otekplay.loveotek.commands.player.helpop.HelpopCommand;
 import pl.otekplay.loveotek.commands.player.history.HistoryCommand;
 import pl.otekplay.loveotek.commands.player.home.HomeCommand;
 import pl.otekplay.loveotek.commands.player.home.SetHomeCommand;
-import pl.otekplay.loveotek.commands.player.chat.MessageCommand;
-import pl.otekplay.loveotek.commands.player.chat.ReplyCommand;
+import pl.otekplay.loveotek.commands.player.kit.KitCommand;
 import pl.otekplay.loveotek.commands.player.ranking.RankingCommand;
 import pl.otekplay.loveotek.commands.player.ranking.TopCommand;
 import pl.otekplay.loveotek.commands.player.spawn.SetSpawnCommand;
@@ -43,6 +47,8 @@ import pl.otekplay.loveotek.commands.player.teleport.TeleportAcceptCommand;
 import pl.otekplay.loveotek.commands.player.teleport.TeleportRequestCommand;
 import pl.otekplay.loveotek.listeners.block.*;
 import pl.otekplay.loveotek.listeners.chat.AsyncPlayerChatListener;
+import pl.otekplay.loveotek.listeners.craft.CraftItemListener;
+import pl.otekplay.loveotek.listeners.craft.PrepareCraftItemListener;
 import pl.otekplay.loveotek.listeners.entity.EntityDamageByEntityListener;
 import pl.otekplay.loveotek.listeners.entity.EntityDamageListener;
 import pl.otekplay.loveotek.listeners.entity.EntityExplodeListener;
@@ -89,8 +95,10 @@ public class Core extends JavaPlugin {
     private final DropManager dropManager = new DropManager();
     @Getter(AccessLevel.PROTECTED)
     private final GeneratorManager generatorManager = new GeneratorManager();
-    @Getter
+    @Getter(AccessLevel.PROTECTED)
     private final CobbleXManager cobbleXManager = new CobbleXManager();
+    @Getter(AccessLevel.PROTECTED)
+    private final KitManager kitManager = new KitManager();
 
     @Override
     public void onLoad() {
@@ -125,10 +133,13 @@ public class Core extends JavaPlugin {
         ConfigUtil.loadSettings(TeleportSettings.class);
         ConfigUtil.loadSettings(DropSettings.class);
         ConfigUtil.loadSettings(GeneratorSettings.class);
+        ConfigUtil.loadSettings(CobbleXSettings.class);
+        ConfigUtil.loadSettings(KitSettings.class);
     }
 
     private void initCommands() {
         CommandManager manager = getCommandManager();
+        manager.add(new HelpopCommand());
         manager.add(new GamemodeCommand());
         manager.add(new TimingsCommand());
         manager.add(new GuildCommand());
@@ -164,6 +175,9 @@ public class Core extends JavaPlugin {
         manager.add(new PrivateMessageCommand());
         manager.add(new SaveCommand());
         manager.add(new CreeperCommand());
+        manager.add(new CobblexCommand());
+        manager.add(new ChestCommand());
+        manager.add(new KitCommand());
     }
 
     private void initListeners() {
@@ -191,6 +205,8 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new PlayerBucketFillListener(),this);
         pm.registerEvents(new BlockFromToListener(),this);
         pm.registerEvents(new PlayerInteractEntityListener(),this);
+        pm.registerEvents(new PrepareCraftItemListener(),this);
+        pm.registerEvents(new CraftItemListener(),this);
     }
 
     private void initFactories() {
@@ -199,6 +215,7 @@ public class Core extends JavaPlugin {
         getDropManager().init();
         getGeneratorManager().init();
         getCobbleXManager().init();
+        getKitManager().init();
     }
 
     private void initRunnables() {

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ChatSettings {
     public static long CHAT_COOLDOWN_TIME = 10000;
+    public static long HELPOP_COOLDOWN_TIME = 30000;
     public static List<String> MESSAGE_CHAT_BLOCKED_WORDS =
             Arrays.asList(
                     ".pl",
@@ -35,4 +36,7 @@ public class ChatSettings {
     public static String MESSAGE_CHAT_COOLDOWN_FORMAT = "&4Pierwszy argument musi byc liczba !";
     public static String MESSAGE_PRIVATE_MESSAGES_ENABLE = "&4Wlaczyles prywatne wiadomosci!";
     public static String MESSAGE_PRIVATE_MESSAGES_DISABLE = "&4Wylaczyles prywatne wiadomosci!";
+    public static String MESSAGE_HELPOP_MESSAGE_SEND = "&4Wyslales wiadomosc do adminsitracji!";
+    public static String MESSAGE_HELPOP_MESSAGE_WAIT = "&4Poczekaj chwile przed nastepna wiadomoscia!";
+    public static String MESSAGE_HELPOP_MESSAGE_GET = "&4[Pomoc]%name% : %message%";
 }

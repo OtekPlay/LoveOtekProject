@@ -8,7 +8,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 public enum EntityTypes {
-    //NAME("Entity name", Entity ID, yourcustomclass.class);
     CUSTOM_CREEPER("creeper", 50, CustomCreeper.class);
 
     EntityTypes(String name, int id, Class<? extends Entity> custom) {
@@ -21,7 +20,6 @@ public enum EntityTypes {
     }
 
     private static void addToMaps(Class clazz, String name, int id) {
-        //getPrivateField is the method from above.
         //Remove the lines with // in front of them if you want to override default entities (You'd have to remove the default entity from the map first though).
         ((Map) getPrivateField("c", net.minecraft.server.v1_7_R4.EntityTypes.class, null)).put(name, clazz);
         ((Map) getPrivateField("d", net.minecraft.server.v1_7_R4.EntityTypes.class, null)).put(clazz, name);

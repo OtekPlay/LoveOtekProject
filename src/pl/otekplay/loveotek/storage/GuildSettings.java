@@ -40,6 +40,7 @@ public class GuildSettings {
     public static String MESSAGE_GUILD_HAVE_MAX_MEMBERS = "&4Gildia %tag% ma maksymalna ilosc czlonkow w gildi!";
     public static String MESSAGE_GUILD_BROADCAST_JOIN = "&4Gracz %nick% dolaczyl do gildii %tag%";
     public static String MESSAGE_GUILD_CANT_LEAVE_LEADER = "&4Nie mozesz opuscic gildi bedac liderem!";
+    public static String MESSAGE_GUILD_CANT_KICK_LEADER  = "&4Nie mozna wyrzucic lidera gildii.";
     public static String MESSAGE_GUILD_CANT_PROMOTE = "&4Nie mozesz awansowac gracza %nick%";
     public static String MESSAGE_GUILD_CANT_DEMOTE = "&4Nie mozesz degradowac gracza %nick%.";
     public static String MESSAGE_GUILD_CANT_CHOOSE_YOURSELF = "&4Nie mozesz wybrac siebie!";
@@ -56,6 +57,8 @@ public class GuildSettings {
     public static String MESSAGE_GUILD_ALLY_NO_TAGGED = "&4Twoja gildia nie oznaczyla gildi %tag%";
     public static String MESSAGE_GUILD_SIZE_UPGRADE_MAX = "&4Twoja gildia ma maksymalny poziom wielkosci!";
     public static String MESSAGE_GUILD_BROADCAST_UPGPRADE = "&4Gildia %tag% zostala powiekszona przez %nick%";
+    public static String MESSAGE_GUILD_PLAYER_OTHER_GUILD = "&4Gracz %nick% jest w innej gildii.";
+    public static String MESSAGE_GUILD_PLAYER_ALREADY_LEADER = "&4Gracz %nick% jest juz liderem tej gildii!";
     public static int GUILD_INVITE_MAX = 3;
     public static int GUILD_MEMBERS_MAX = 10;
     public static List<String> MESSAGE_GUILD_INFO = Arrays.asList(

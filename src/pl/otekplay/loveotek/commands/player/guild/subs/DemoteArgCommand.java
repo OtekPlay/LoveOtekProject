@@ -9,7 +9,6 @@ import pl.otekplay.loveotek.enums.GuildRank;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GlobalSettings;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class DemoteArgCommand implements SubCommand {
     @Override
@@ -50,8 +49,6 @@ public class DemoteArgCommand implements SubCommand {
         }
         guild.addMember(demote.getUniqueID(),GuildRank.MEMBER);
         Replacer.build(GuildSettings.MESSAGE_GUILD_DEMOTE_COMPLETED).add("%nick%",demote.getName()).send(guild);
-        if(demote.isOnline()){
-            TagUtil.updateBoard(demote.getPlayer());
-        }
+        demote.updateTag();
     }
 }

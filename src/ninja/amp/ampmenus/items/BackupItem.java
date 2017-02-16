@@ -11,7 +11,7 @@ import pl.otekplay.loveotek.utils.TimeUtil;
 
 import java.util.UUID;
 
-public class BackupItem extends StaticMenuItem {
+public class BackupItem extends NamedMenuItem {
     private final UUID uuid;
     private final long time;
 

@@ -8,7 +8,6 @@ import pl.otekplay.loveotek.basic.User;
 import pl.otekplay.loveotek.main.Guilds;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class WarArgCommand implements SubCommand {
     @Override
@@ -40,6 +39,6 @@ public class WarArgCommand implements SubCommand {
         }
         guild.removeAlly(war.getTag());
         Replacer.build(GuildSettings.MESSAGE_GUILD_YOUR_TAGGED_WAR).add("%tag%",war.getTag()).send(guild);
-        TagUtil.updateBoard(war);
+        war.updateTag();
     }
 }

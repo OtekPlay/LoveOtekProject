@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import pl.otekplay.loveotek.enums.GuildRank;
 import pl.otekplay.loveotek.main.Cuboids;
 import pl.otekplay.loveotek.main.Rankings;
+import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class Guild {
     private boolean pvp;
     private Location home;
     private long lastMoveInformation = 0;
+    private long lastTnTExplode = 0;
 
     public UUID getLeaderUniqueID() {
         return members.keySet().stream().filter(uuid -> members.get(uuid) == GuildRank.LEADER).findFirst().orElse(null);
@@ -43,6 +45,14 @@ public class Guild {
 
     public void addMember(UUID uuid, GuildRank rank) {
         members.put(uuid, rank);
+    }
+
+    public void setLeader(UUID uuid) {
+        UUID oldLeader = getLeaderUniqueID();
+        members.put(oldLeader, GuildRank.MEMBER);
+        members.put(uuid, GuildRank.LEADER);
+        Users.get(oldLeader).updateTag();
+        Users.get(uuid).updateTag();
     }
 
     public void addAlly(String ally) {
@@ -81,8 +91,14 @@ public class Guild {
         return allyGuilds.contains(tag);
     }
 
-    public boolean needInfo(){
+    public boolean needInfoMove() {
         return (System.currentTimeMillis() - lastMoveInformation) > GuildSettings.GUILD_MOVE_INFO_COOLDOWN;
-
     }
+
+    public void updateTag() {
+        for (UUID uuid : getMembers().keySet()) {
+            Users.get(uuid).updateTag();
+        }
+    }
+
 }

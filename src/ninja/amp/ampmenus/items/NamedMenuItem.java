@@ -24,9 +24,9 @@ import org.bukkit.inventory.ItemStack;
 /**
  * A {@link MenuItem} whose icon never changes.
  */
-public class StaticMenuItem extends MenuItem {
+public class NamedMenuItem extends MenuItem {
 
-    public StaticMenuItem(ItemStack icon) {
+    public NamedMenuItem(ItemStack icon) {
         super(icon.getItemMeta().getDisplayName(), icon, icon.getItemMeta().getLore().toArray(new String[]{}));
     }
 

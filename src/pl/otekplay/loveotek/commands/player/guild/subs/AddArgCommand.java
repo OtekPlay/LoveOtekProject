@@ -9,7 +9,6 @@ import pl.otekplay.loveotek.enums.GuildRank;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GlobalSettings;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class AddArgCommand implements SubCommand {
     @Override
@@ -51,6 +50,5 @@ public class AddArgCommand implements SubCommand {
         guild.addInvite(invite.getUniqueID());
         Replacer.build(GuildSettings.MESSAGE_GUILD_GOT_INVITE).add("%name%", guild.getTag()).send(invite);
         Replacer.build(GuildSettings.MESSAGE_GUILD_INVITE_PLAYER).add("%invite%", invite.getName()).add("%nick%", user.getName()).send(guild);
-        TagUtil.updateBoard(player);
     }
 }

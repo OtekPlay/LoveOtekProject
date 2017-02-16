@@ -10,7 +10,6 @@ import pl.otekplay.loveotek.main.Rankings;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GlobalSettings;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class RemoveArgCommand implements SubCommand {
     @Override
@@ -24,12 +23,12 @@ public class RemoveArgCommand implements SubCommand {
         Guild guild = user.getGuild();
         GuildRank rank = guild.getGuildRank(user.getUniqueID());
         if (!Users.is(name)) {
-            Replacer.build(GlobalSettings.MESSAGE_PLAYER_NO_EXIST).add("%nick%",name).send(player);
+            Replacer.build(GlobalSettings.MESSAGE_PLAYER_NO_EXIST).add("%nick%", name).send(player);
             return;
         }
         User remove = Users.get(name);
-        if(!remove.hasGuild()){
-            Replacer.build(GuildSettings.MESSAGE_GUILD_PLAYER_DONT_HAVE_GUILD).add("%nick%",remove.getName()).send(player);
+        if (!remove.hasGuild()) {
+            Replacer.build(GuildSettings.MESSAGE_GUILD_PLAYER_DONT_HAVE_GUILD).add("%nick%", remove.getName()).send(player);
             return;
         }
         if (!guild.isMember(remove.getUniqueID())) {
@@ -37,16 +36,14 @@ public class RemoveArgCommand implements SubCommand {
             return;
         }
         GuildRank removeRank = guild.getGuildRank(remove.getUniqueID());
-        if(removeRank.getPriority() >=rank.getPriority()){
+        if (removeRank.getPriority() >= rank.getPriority()) {
             player.sendMessage(GuildSettings.MESSAGE_GUILD_CANT_KICK_HIGHER);
             return;
         }
         guild.removeMember(remove.getUniqueID());
         remove.setGuild(null);
-        Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_KICKED).add("%nick%",remove.getName()).add("%tag%",guild.getTag()).broadcast();
-        if(remove.isOnline()) {
-            TagUtil.updateBoard(remove.getPlayer());
-        }
+        Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_KICKED).add("%nick%", remove.getName()).add("%tag%", guild.getTag()).broadcast();
+        remove.updateTag();
         Rankings.sortGuilds();
     }
 

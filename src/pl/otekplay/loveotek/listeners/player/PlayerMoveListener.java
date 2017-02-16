@@ -44,7 +44,7 @@ public class PlayerMoveListener implements Listener {
         if (guild.isMember(p.getUniqueId())) {
             return;
         }
-        if (!guild.needInfo()) {
+        if (!guild.needInfoMove()) {
             return;
         }
         Replacer.build(CuboidSettings.MESSAGE_GUILD_ENEMY_MOVE_INFO_JOIN).send(guild);

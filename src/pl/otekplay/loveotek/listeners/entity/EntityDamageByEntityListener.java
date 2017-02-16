@@ -1,11 +1,15 @@
 package pl.otekplay.loveotek.listeners.entity;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.util.Vector;
+import pl.otekplay.loveotek.api.entities.CustomCreeper;
 import pl.otekplay.loveotek.basic.Replacer;
 import pl.otekplay.loveotek.basic.User;
 import pl.otekplay.loveotek.main.Combats;

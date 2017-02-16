@@ -54,11 +54,16 @@ public class User {
 
     public void setRank(UserRank rank) {
         this.rank = rank;
-        if (!isOnline()) {
+        this.updateTag();
+    }
+
+    public void updateTag(){
+        if(!isOnline()){
             return;
         }
         TagUtil.updateBoard(getPlayer());
     }
+
 
 
 }

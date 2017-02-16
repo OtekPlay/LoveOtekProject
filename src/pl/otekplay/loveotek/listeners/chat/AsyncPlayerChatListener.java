@@ -36,7 +36,7 @@ public class AsyncPlayerChatListener implements Listener {
                 return;
             }
             ChatUser chat = Chat.get(p.getUniqueId());
-            if (!chat.canSend()) {
+            if (!chat.canSendMessage()) {
                 long time = System.currentTimeMillis() - chat.getLastMessage();
                 int seconds = (int) (time / 1000);
                 seconds = (int) ((ChatSettings.CHAT_COOLDOWN_TIME / 1000) - seconds);

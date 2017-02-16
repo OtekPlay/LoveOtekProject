@@ -1,19 +1,24 @@
 package pl.otekplay.loveotek.listeners.block;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 import pl.otekplay.loveotek.basic.DropUser;
 import pl.otekplay.loveotek.basic.Generator;
 import pl.otekplay.loveotek.enums.GeneratorType;
+import pl.otekplay.loveotek.main.CobbleX;
 import pl.otekplay.loveotek.main.Drops;
 import pl.otekplay.loveotek.main.Generators;
+import pl.otekplay.loveotek.storage.CobbleXSettings;
 import pl.otekplay.loveotek.storage.DropSettings;
 import pl.otekplay.loveotek.utils.LocationUtil;
 import pl.otekplay.loveotek.utils.RecalculateUtil;
@@ -27,12 +32,16 @@ public class BlockBreakListener implements Listener {
     public void onBlockBreakEvent(BlockBreakEvent event) {
         Player p = event.getPlayer();
         Block block = event.getBlock();
-        if(DropSettings.DROP_MENU_BLOCKED_BLOCKS.contains(block.getTypeId())){
+        if (DropSettings.DROP_MENU_BLOCKED_BLOCKS.contains(block.getTypeId())) {
             block.breakNaturally(new ItemStack(Material.AIR));
             return;
         }
         Location loc = block.getLocation();
         if (LocationUtil.canBuild(p, loc)) {
+            event.setCancelled(true);
+            return;
+        }
+        if (checkCobbleX(p, block)) {
             event.setCancelled(true);
             return;
         }
@@ -72,6 +81,22 @@ public class BlockBreakListener implements Listener {
             Generators.get(location).destroy();
         }
         return false;
+    }
+
+    private boolean checkCobbleX(Player p, Block block) {
+        if(block.getType() != Material.getMaterial(CobbleXSettings.COBBLEX_ITEM_ID)){
+            return false;
+        }
+        Location location = block.getLocation();
+        if (!CobbleX.is(location)) {
+            return false;
+        }
+        CobbleX.remove(location);
+        location.getBlock().setType(Material.AIR);
+        p.getWorld().playEffect(location, Effect.MOBSPAWNER_FLAMES,10);
+        Item item = p.getWorld().dropItem(location.add(0, 1, 0), CobbleX.random());
+        item.setVelocity(new Vector(0, 0.5, 0));
+        return true;
     }
 
     private void checkDrops(Player p, Block block) {

@@ -5,11 +5,9 @@ import pl.otekplay.loveotek.api.commands.SubCommand;
 import pl.otekplay.loveotek.basic.Guild;
 import pl.otekplay.loveotek.basic.Replacer;
 import pl.otekplay.loveotek.basic.User;
-import pl.otekplay.loveotek.enums.GuildRank;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GlobalSettings;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class LeaderArgCommand implements SubCommand {
     @Override
@@ -47,12 +45,7 @@ public class LeaderArgCommand implements SubCommand {
             Replacer.build(GuildSettings.MESSAGE_GUILD_PLAYER_NO_SAME_GUILD).add("%nick%", newLeader.getName()).send(player);
             return;
         }
-        guild.addMember(user.getUniqueID(),GuildRank.OFFICER);
-        guild.addMember(newLeader.getUniqueID(),GuildRank.LEADER);
+        guild.setLeader(user.getUniqueID());
         Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_NEW_LEADER).add("%tag%",guild.getTag()).add("%nick%",newLeader.getName()).send(guild);
-        TagUtil.updateBoard(player);
-        if(newLeader.isOnline()){
-            TagUtil.updateBoard(newLeader.getPlayer());
-        }
     }
 }

@@ -10,7 +10,6 @@ import pl.otekplay.loveotek.main.Guilds;
 import pl.otekplay.loveotek.main.Rankings;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class JoinArgCommand implements SubCommand {
     @Override
@@ -43,7 +42,7 @@ public class JoinArgCommand implements SubCommand {
         guild.addMember(user.getUniqueID(), GuildRank.MEMBER);
         user.setGuild(guild);
         Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_JOIN).add("%tag%",guild.getTag()).add("%nick%",user.getName()).broadcast();
-        TagUtil.updateBoard(player);
+       user.updateTag();
         Rankings.sortGuilds();
     }
 }

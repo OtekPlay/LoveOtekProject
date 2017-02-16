@@ -12,7 +12,6 @@ import pl.otekplay.loveotek.main.Rankings;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
 import pl.otekplay.loveotek.utils.SpaceUtil;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 import java.util.Collection;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class GuildManager {
     private final Map<String, Guild> guilds = new ConcurrentHashMap<>();
 
     public void createGuild(String tag, String name, UUID leader, Location loc) {
-        Guild guild = new Guild(tag, name,  false, loc,0);
+        Guild guild = new Guild(tag, name,  false, loc,0,0);
         guild.addMember(leader, GuildRank.LEADER);
         guilds.put(guild.getTag(), guild);
         Cuboids.add(guild.getTag(), loc.getWorld(), loc.getBlockX(), loc.getBlockZ(), GuildSettings.GUILD_SIZE_START, CuboidType.GUILD);
@@ -46,9 +45,7 @@ public class GuildManager {
         for(UUID uuid:uuids){
             User user = Users.get(uuid);
             user.setGuild(null);
-            if(user.isOnline()){
-                TagUtil.updateBoard(user.getPlayer());
-            }
+            user.updateTag();
         }
     }
 

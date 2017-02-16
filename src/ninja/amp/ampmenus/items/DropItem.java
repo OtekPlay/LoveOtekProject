@@ -7,7 +7,7 @@ import pl.otekplay.loveotek.basic.Drop;
 import pl.otekplay.loveotek.basic.DropUser;
 import pl.otekplay.loveotek.main.Drops;
 
-public class DropItem extends StaticMenuItem {
+public class DropItem extends NamedMenuItem {
     private final Drop drop;
     public DropItem(ItemStack icon,Drop drop) {
         super(icon);

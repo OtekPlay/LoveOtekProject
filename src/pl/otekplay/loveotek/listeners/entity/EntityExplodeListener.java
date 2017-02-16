@@ -23,36 +23,37 @@ public class EntityExplodeListener implements Listener {
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event) {
         int atm = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if(atm < CombatSettings.TIME_HOUR_TNT_START || atm > CombatSettings.TIME_HOUR_TNT_END || !CombatSettings.TNT_ENABLED){
+        if (atm < CombatSettings.TIME_HOUR_TNT_START || atm > CombatSettings.TIME_HOUR_TNT_END || !CombatSettings.TNT_ENABLED) {
             event.setCancelled(true);
             return;
         }
+        event.blockList().removeIf(block -> block.getType() == Material.DRAGON_EGG);
         Location location = event.getLocation();
-        Cuboid cuboid = null;
-        if (Cuboids.inside(location)) {
-             cuboid = Cuboids.cub(location);
-            if (!cuboid.isGuildTerrain()) {
-                return;
-            }
-            Guild guild = Guilds.tag(cuboid.getKey());
+        Cuboid cuboid;
+        if (!Cuboids.inside(location)) {
+            event.setCancelled(true);
+            return;
         }
+        cuboid = Cuboids.cub(location);
+        if (!cuboid.isGuildTerrain()) {
+            event.setCancelled(true);
+            return;
+        }
+        Guild guild = Guilds.tag(cuboid.getKey());
+
         List<Location> locations = SpaceUtil.getSphere(location, CombatSettings.TNT_EXPLODE_RADIUS, CombatSettings.TNT_EXPLODE_RADIUS, false, true, 0);
         for (Location loc : locations) {
-            if(cuboid == null){
+            if (cuboid == null) {
                 cuboid = Cuboids.cub(loc);
             }
             Block block = loc.getBlock();
-            if(block.getType() == Material.BEDROCK){
-                continue;
-            }
-            if (CombatSettings.HARDER_BLOCKS.contains(block.getTypeId())) {
+            if (!CombatSettings.HARDER_BLOCKS.contains(block.getTypeId())) {
                 continue;
             }
             if (!RandomUtil.getChance(CombatSettings.HARDER_BLOCK_EXPLOSION_CHANCE)) {
                 continue;
             }
             block.setType(Material.AIR);
-
         }
     }
 }

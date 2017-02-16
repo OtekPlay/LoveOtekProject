@@ -26,6 +26,7 @@ public class ChatManager {
     public ChatUser getChatUser(UUID uuid) {
         return chatUsers.get(uuid);
     }
+
     public boolean isValidMessage(String message){
         for(String string: ChatSettings.MESSAGE_CHAT_BLOCKED_WORDS){
             if(message.contains(string)){

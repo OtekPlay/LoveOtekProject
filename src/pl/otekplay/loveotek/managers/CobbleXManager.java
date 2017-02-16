@@ -1,9 +1,11 @@
 package pl.otekplay.loveotek.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.otekplay.loveotek.builders.ItemBuilder;
 import pl.otekplay.loveotek.storage.CobbleXSettings;
@@ -27,6 +29,17 @@ public class CobbleXManager {
             int amount = Integer.parseInt(tab[1]);
             items.add(new ItemStack(Material.getMaterial(ID), amount));
         }
+        registerRecipe();
+    }
+
+    private void registerRecipe(){
+        ShapedRecipe recipe = new ShapedRecipe(COBBLEX_ITEM);
+        recipe.shape(CobbleXSettings.COBBLEX_RECIPE_SHAPE.toArray(new String[3]));
+        for (String s : CobbleXSettings.COBLEX_RECIPE_MATERIALS) {
+            String[] tab = s.split(":");
+            recipe.setIngredient(tab[0].charAt(0), Material.getMaterial(Integer.parseInt(tab[1])));
+        }
+        Bukkit.addRecipe(recipe);
     }
 
 
@@ -35,7 +48,7 @@ public class CobbleXManager {
     }
 
     public void removeCobble(Location location) {
-        cobblexLocations.add(location);
+        cobblexLocations.remove(location);
     }
 
     public boolean isCobble(Location location) {
@@ -61,9 +74,6 @@ public class CobbleXManager {
         }
         ItemMeta meta = item.getItemMeta();
         if(!meta.getDisplayName().equals(CobbleXSettings.COBBLEX_ITEM_NAME)){
-            return false;
-        }
-        if(!meta.getLore().equals(CobbleXSettings.COBBLEX_ITEM_LORE)){
             return false;
         }
         return true;

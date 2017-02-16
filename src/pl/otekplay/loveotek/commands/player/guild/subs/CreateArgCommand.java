@@ -4,11 +4,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import pl.otekplay.loveotek.api.commands.SubCommand;
 import pl.otekplay.loveotek.basic.Replacer;
+import pl.otekplay.loveotek.basic.User;
 import pl.otekplay.loveotek.main.Cuboids;
 import pl.otekplay.loveotek.main.Guilds;
 import pl.otekplay.loveotek.main.Users;
 import pl.otekplay.loveotek.storage.GuildSettings;
-import pl.otekplay.loveotek.utils.TagUtil;
 
 public class CreateArgCommand implements SubCommand {
     @Override
@@ -36,7 +36,8 @@ public class CreateArgCommand implements SubCommand {
             Replacer.build(GuildSettings.MESSAGE_GUILD_NAME_RESERVED).add("%name%", name).send(player);
             return;
         }
-        if(Users.get(player.getUniqueId()).hasGuild()){
+        User user = Users.get(player.getUniqueId());
+        if(user.hasGuild()){
             player.sendMessage(GuildSettings.MESSAGE_GUILD_YOU_HAVE);
             return;
         }
@@ -47,7 +48,7 @@ public class CreateArgCommand implements SubCommand {
         }
         Guilds.create(tag, name, player.getUniqueId(), loc);
         Replacer.build(GuildSettings.MESSAGE_GUILD_BROADCAST_CREATE).add("%tag%", tag).add("%nick%", player.getName()).broadcast();
-        TagUtil.updateBoard(player);
+        user.updateTag();
     }
 
 }

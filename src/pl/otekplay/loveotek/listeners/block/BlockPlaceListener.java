@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import pl.otekplay.loveotek.enums.GeneratorType;
+import pl.otekplay.loveotek.main.CobbleX;
 import pl.otekplay.loveotek.main.Generators;
 import pl.otekplay.loveotek.storage.GeneratorSettings;
 import pl.otekplay.loveotek.utils.LocationUtil;
@@ -25,30 +26,42 @@ public class BlockPlaceListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        checkGenerator(p,event.getBlockPlaced());
+        checkCobbleX(p,event.getBlockPlaced());
+        checkGenerator(p, event.getBlockPlaced());
+    }
+
+    private void checkCobbleX(Player p, Block block) {
+        ItemStack item = p.getItemInHand();
+        if(item == null){
+            return;
+        }
+        if(!CobbleX.cobblex(item)){
+            return;
+        }
+        CobbleX.add(block.getLocation());
     }
 
     private void checkGenerator(Player p, Block b) {
         ItemStack itemStack = p.getItemInHand();
-        if(itemStack == null){
+        if (itemStack == null) {
             return;
         }
-        if(itemStack.getType() != Material.ENDER_STONE){
+        if (itemStack.getType() != Material.ENDER_STONE) {
             return;
         }
-        if(itemStack.getItemMeta() == null){
+        if (itemStack.getItemMeta() == null) {
             return;
         }
-        if(itemStack.getItemMeta().getDisplayName() == null){
+        if (itemStack.getItemMeta().getDisplayName() == null) {
             return;
         }
-        if(itemStack.getItemMeta().getDisplayName().isEmpty()){
+        if (itemStack.getItemMeta().getDisplayName().isEmpty()) {
             return;
         }
         GeneratorType type = null;
-        if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(GeneratorSettings.GENERATOR_ITEMSTACK_NAME_OBSIDIAN)){
+        if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(GeneratorSettings.GENERATOR_ITEMSTACK_NAME_OBSIDIAN)) {
             type = GeneratorType.OBSIDIAN;
-        }else if(itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(GeneratorSettings.GENERATOR_ITEMSTACK_NAME_STONE)){
+        } else if (itemStack.getItemMeta().getDisplayName().equalsIgnoreCase(GeneratorSettings.GENERATOR_ITEMSTACK_NAME_STONE)) {
             type = GeneratorType.STONE;
         }
         Generators.register(b.getLocation(), type).repair();

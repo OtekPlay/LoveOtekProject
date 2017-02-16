@@ -10,7 +10,7 @@ import pl.otekplay.loveotek.storage.DepositSettings;
 
 import java.util.UUID;
 
-public class DepositItem extends StaticMenuItem {
+public class DepositItem extends NamedMenuItem {
     private final UUID uuid;
     private final DepositType type;
 

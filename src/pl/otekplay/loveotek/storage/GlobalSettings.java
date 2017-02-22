@@ -42,7 +42,13 @@ public class GlobalSettings {
     );
     public static String MESSAGE_SERVER_SAVE_PLAYERS = "&4Zapisywanie graczy zajelo: %players% ms.";
     public static String MESSAGE_SERVER_SAVE_WORLD = "&4Zapisywanie map zajelo %maps% ms.";
-    public static int CLEAR_ITEM_LIVED_TICKS = 20*60;
+    public static int CLEAR_ITEM_LIVED_TICKS = 20 * 60;
+    public static String MESSAGE_SERVER_BY_LOVEOTEK = "&4Serwer jest wspierany przez modul OtekLoveProject <3";
+
+    public static String MESSAGE_CONFIG_NO_EXIST = "&4Config o nazwie %name% nie istnieje.";
+    public static String MESSAGE_CONFIG_INFO_RELOADED = "&4Config %name% zostal przeladowany.";
+    public static String MESSAGE_CONFIG_INFO_ALL = "&4Configi zostaly przeladowane.";
+    public static String MESSAGE_HAND_IS_EMPTY = "&4Musisz trzymac jakis item w rece!";
 
 
 }

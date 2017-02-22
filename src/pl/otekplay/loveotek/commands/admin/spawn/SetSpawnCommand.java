@@ -1,4 +1,4 @@
-package pl.otekplay.loveotek.commands.player.spawn;
+package pl.otekplay.loveotek.commands.admin.spawn;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

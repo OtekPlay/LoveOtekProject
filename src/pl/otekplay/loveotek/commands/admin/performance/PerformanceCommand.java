@@ -31,12 +31,12 @@ public class PerformanceCommand implements MainCommand {
         long maxMemory = runtime.maxMemory();
         long allocatedMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
-        String tps = "";
+        StringBuilder builder = new StringBuilder("");
         for (double doub : Bukkit.getServer().spigot().getTPS()) {
-            tps = tps + StringUtil.round(doub, 1) + ", ";
+            builder.append(StringUtil.round(doub, 1) + ", ");
         }
         Replacer.build(GlobalSettings.MESSAGE_SERVER_PERFORMANCE_INFO)
-                .add("%tps%", tps)
+                .add("%tps%", builder.toString())
                 .add("%freememory%", format.format(freeMemory / 1024))
                 .add("%reservememory%", format.format(allocatedMemory / 1024))
                 .add("%totalmemory%", format.format(maxMemory / 1024))

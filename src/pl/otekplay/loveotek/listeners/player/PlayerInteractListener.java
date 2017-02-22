@@ -25,28 +25,30 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteractEvent(PlayerInteractEvent event) {
         Player p = event.getPlayer();
         User user = Users.get(p.getUniqueId());
-        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            return;
-        }
         Block block = event.getClickedBlock();
         if (block == null) {
             return;
         }
-        if(block.getType() == Material.DRAGON_EGG){
-            Cuboid cuboid = Cuboids.cub(block.getLocation());
-            if(cuboid != null) {
-                if(cuboid.isGuildTerrain()) {
-                    InfoArgCommand.showInfoAboutGuild(p, Guilds.tag(cuboid.getKey()));
+        if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) {
+            return;
+        }
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (user.hasPermissions(UserRank.MODERATOR)) {
+                if (block.getType() == Material.CHEST) {
+                    InventoryUtil.silentOpen(p, block);
                     event.setCancelled(true);
                     return;
                 }
             }
         }
-        if (user.hasPermissions(UserRank.MODERATOR)) {
-            if (block.getType() == Material.CHEST) {
-                InventoryUtil.silentOpen(p,block);
-                event.setCancelled(true);
-                return;
+        if (block.getType() == Material.DRAGON_EGG) {
+            Cuboid cuboid = Cuboids.cub(block.getLocation());
+            if (cuboid != null) {
+                if (cuboid.isGuildTerrain()) {
+                    InfoArgCommand.showInfoAboutGuild(p, Guilds.tag(cuboid.getKey()));
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
         if (Cuboids.inside(block.getX(), block.getZ())) {

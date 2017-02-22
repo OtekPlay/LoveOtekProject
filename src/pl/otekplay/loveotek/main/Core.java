@@ -8,9 +8,12 @@ import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.otekplay.loveotek.commands.admin.backup.BackupCommand;
 import pl.otekplay.loveotek.commands.admin.chat.ChatCommand;
+import pl.otekplay.loveotek.commands.admin.config.ConfigCommand;
+import pl.otekplay.loveotek.commands.admin.cuboid.CuboidCommand;
 import pl.otekplay.loveotek.commands.admin.fly.FlyCommand;
 import pl.otekplay.loveotek.commands.admin.gamemode.GamemodeCommand;
 import pl.otekplay.loveotek.commands.admin.group.GroupCommand;
+import pl.otekplay.loveotek.commands.admin.hand.HandCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.ClearInventoryCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.EnderchestCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.OpenInventoryCommand;
@@ -18,6 +21,8 @@ import pl.otekplay.loveotek.commands.admin.performance.PerformanceCommand;
 import pl.otekplay.loveotek.commands.admin.root.RootCommand;
 import pl.otekplay.loveotek.commands.admin.server.SaveCommand;
 import pl.otekplay.loveotek.commands.admin.server.StopCommand;
+import pl.otekplay.loveotek.commands.admin.server.VersionCommand;
+import pl.otekplay.loveotek.commands.admin.spawn.SetSpawnCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.CordsCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.GoCommand;
 import pl.otekplay.loveotek.commands.admin.teleport.RandomCommand;
@@ -41,7 +46,6 @@ import pl.otekplay.loveotek.commands.player.home.SetHomeCommand;
 import pl.otekplay.loveotek.commands.player.kit.KitCommand;
 import pl.otekplay.loveotek.commands.player.ranking.RankingCommand;
 import pl.otekplay.loveotek.commands.player.ranking.TopCommand;
-import pl.otekplay.loveotek.commands.player.spawn.SetSpawnCommand;
 import pl.otekplay.loveotek.commands.player.spawn.SpawnCommand;
 import pl.otekplay.loveotek.commands.player.teleport.TeleportAcceptCommand;
 import pl.otekplay.loveotek.commands.player.teleport.TeleportRequestCommand;
@@ -120,7 +124,7 @@ public class Core extends JavaPlugin {
         ((SimplePluginManager) Bukkit.getPluginManager()).useTimings(true);
     }
 
-    private void initSettings() {
+    public void initSettings() {
         ConfigUtil.loadSettings(BackupSettings.class);
         ConfigUtil.loadSettings(ChatSettings.class);
         ConfigUtil.loadSettings(CombatSettings.class);
@@ -178,6 +182,10 @@ public class Core extends JavaPlugin {
         manager.add(new CobblexCommand());
         manager.add(new ChestCommand());
         manager.add(new KitCommand());
+        manager.add(new CuboidCommand());
+        manager.add(new ConfigCommand());
+        manager.add(new VersionCommand());
+        manager.add(new HandCommand());
     }
 
     private void initListeners() {
@@ -199,14 +207,14 @@ public class Core extends JavaPlugin {
         pm.registerEvents(new FoodLevelChangeListener(), this);
         pm.registerEvents(new AsyncPlayerChatListener(), this);
         pm.registerEvents(new EntityExplodeListener(), this);
-        pm.registerEvents(new BlockPistonExtendListener(),this);
-        pm.registerEvents(new BlockPsyhicListener(),this);
-        pm.registerEvents(new PlayerBucketEmptyListener(),this);
-        pm.registerEvents(new PlayerBucketFillListener(),this);
-        pm.registerEvents(new BlockFromToListener(),this);
-        pm.registerEvents(new PlayerInteractEntityListener(),this);
-        pm.registerEvents(new PrepareCraftItemListener(),this);
-        pm.registerEvents(new CraftItemListener(),this);
+        pm.registerEvents(new BlockPistonExtendListener(), this);
+        pm.registerEvents(new BlockPsyhicListener(), this);
+        pm.registerEvents(new PlayerBucketEmptyListener(), this);
+        pm.registerEvents(new PlayerBucketFillListener(), this);
+        pm.registerEvents(new BlockFromToListener(), this);
+        pm.registerEvents(new PlayerInteractEntityListener(), this);
+        pm.registerEvents(new PrepareCraftItemListener(), this);
+        pm.registerEvents(new CraftItemListener(), this);
     }
 
     private void initFactories() {

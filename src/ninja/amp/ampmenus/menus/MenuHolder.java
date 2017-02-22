@@ -25,8 +25,8 @@ import org.bukkit.inventory.InventoryHolder;
  * Allows you to set the {@link ItemMenu} that created the Inventory as the Inventory's holder.
  */
 public class MenuHolder implements InventoryHolder {
-    private ItemMenu menu;
-    private Inventory inventory;
+    private final ItemMenu menu;
+    private final Inventory inventory;
 
     public MenuHolder(ItemMenu menu, Inventory inventory) {
         this.menu = menu;

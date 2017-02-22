@@ -14,7 +14,6 @@ public class GeneratorTask extends BukkitRunnable {
     @Override
     public void run() {
         Collection<Generator> generators = Generators.destroyed();
-        generators.forEach(generator -> Generators.repair(generator));
         Bukkit.getScheduler().runTask(Core.getInstance(), () -> generators.forEach(Generator::repair));
     }
 }

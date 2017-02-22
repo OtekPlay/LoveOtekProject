@@ -16,7 +16,7 @@ public enum GeneratorType {
     private final Material material;
 
     public long getRepairTime(){
-        return (this == OBSIDIAN) ? GeneratorSettings.GENERATOR_REPAIR_TIME_OBSIDIAN:GeneratorSettings.GENERATOR_REPAIR_TIME_STONE;
+        return this == OBSIDIAN ? GeneratorSettings.GENERATOR_REPAIR_TIME_OBSIDIAN:GeneratorSettings.GENERATOR_REPAIR_TIME_STONE;
     }
     public ItemStack getItem(){
         return Generators.item(this);

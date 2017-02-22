@@ -40,7 +40,7 @@ public class ChestTask implements Runnable {
                 newItems[i + 1] = items[i];
             }
         }
-        if (tick == 8) {
+        if (tick == 4) {
             Bukkit.getScheduler().runTask(Core.getInstance(), () -> {
                 Firework work = p.getWorld().spawn(p.getLocation().subtract(0,1,0), Firework.class);
                 FireworkEffect fire = FireworkEffect.builder().withColor(Color.AQUA).with(FireworkEffect.Type.STAR).build();

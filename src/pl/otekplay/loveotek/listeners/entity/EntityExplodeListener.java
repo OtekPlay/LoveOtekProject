@@ -23,7 +23,11 @@ public class EntityExplodeListener implements Listener {
     @EventHandler
     public void onEntityExplodeEvent(EntityExplodeEvent event) {
         int atm = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if (atm < CombatSettings.TIME_HOUR_TNT_START || atm > CombatSettings.TIME_HOUR_TNT_END || !CombatSettings.TNT_ENABLED) {
+        if (!CombatSettings.TNT_ENABLED) {
+            event.setCancelled(true);
+            return;
+        }
+        if (CombatSettings.TIME_HOUR_TNT_START > atm && CombatSettings.TIME_HOUR_TNT_END < atm) {
             event.setCancelled(true);
             return;
         }

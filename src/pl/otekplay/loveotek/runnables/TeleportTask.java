@@ -57,9 +57,14 @@ public class TeleportTask extends BukkitRunnable {
             p.sendMessage(TeleportSettings.MESSAGE_PLAYER_TELEPORTER_BUSY);
             return;
         }
-        uniqueIds.add(p.getUniqueId());
         User user = Users.get(p.getUniqueId());
+        if (user.hasPermissions(UserRank.HELPER)) {
+            p.teleport(loc);
+            p.sendMessage(TeleportSettings.MESSAGE_TELEPORT_SUCCESS);
+            return;
+        }
+        uniqueIds.add(p.getUniqueId());
         p.sendMessage(TeleportSettings.MESSAGE_TELEPORT_START);
-        Bukkit.getScheduler().runTaskLater(Core.getInstance(), new TeleportTask(p.getUniqueId(), p.getLocation(), loc, (user.hasPermissions(UserRank.HELPER) ? 1 : 5)), 20);
+        Bukkit.getScheduler().runTaskLater(Core.getInstance(), new TeleportTask(p.getUniqueId(), p.getLocation(), loc, 5), 20);
     }
 }

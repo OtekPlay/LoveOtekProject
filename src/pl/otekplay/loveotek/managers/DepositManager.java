@@ -1,12 +1,15 @@
 package pl.otekplay.loveotek.managers;
 
+import com.mongodb.client.model.Projections;
 import ninja.amp.ampmenus.items.DepositItem;
 import ninja.amp.ampmenus.menus.ItemMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.otekplay.loveotek.basic.Ban;
 import pl.otekplay.loveotek.basic.Deposit;
 import pl.otekplay.loveotek.basic.Replacer;
 import pl.otekplay.loveotek.builders.ItemBuilder;
+import pl.otekplay.loveotek.database.Database;
 import pl.otekplay.loveotek.enums.DepositType;
 import pl.otekplay.loveotek.main.Core;
 import pl.otekplay.loveotek.storage.DepositSettings;
@@ -16,8 +19,17 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DepositManager {
-
     private final Map<UUID, Deposit> deposits = new HashMap<>();
+
+    public void init() {
+        Database.find(Ban.class).projection(Projections.excludeId()).forEach(document -> {
+            Deposit deposit = Database.gson().fromJson(Database.gson().toJson(document), Deposit.class);
+            deposits.put(deposit.getUniqueID(), deposit);
+        }, (aVoid, throwable) -> {
+            String simpleName = this.getClass().getSimpleName();
+            System.out.println("[" + simpleName + "] Loaded " + deposits.size() + " " + simpleName.replace("Manager", "s").toLowerCase() + "!");
+        });
+    }
 
     public void registerDeposit(UUID uuid) {
         Deposit deposit = new Deposit(uuid);

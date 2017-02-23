@@ -15,7 +15,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class GeneratorManager {
-
     private final Map<Location, Generator> generatorMap = new HashMap<>();
     private final List<Generator> destroyed = new CopyOnWriteArrayList<>();
     private ItemStack GENERATOR_ITEM_OBSIDIAN, GENERATOR_ITEM_STONE;

@@ -19,7 +19,6 @@ public class Backup {
     private final long time;
     private final ItemStack[] contents,armor,enderchest;
 
-
     public void equip(){
         Player p = Bukkit.getPlayer(uniqueID);
         PlayerInventory inv = p.getInventory();

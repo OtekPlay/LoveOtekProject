@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CuboidManager {
-
     private final Map<String, Cuboid> cuboids = new ConcurrentHashMap<>();
 
     public void registerCuboid(String key, World world, int x, int z, int size, CuboidType type) {

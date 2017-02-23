@@ -20,7 +20,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildManager {
-
     private final Map<String, Guild> guilds = new ConcurrentHashMap<>();
 
     public void createGuild(String tag, String name, UUID leader, Location loc) {

@@ -29,8 +29,7 @@ public class VanishManager {
     }
 
     private void hidePlayer(Player p) {
-        Player[] online = Bukkit.getOnlinePlayers();
-        Arrays.stream(online).filter(player -> !p.equals(player)).forEach(player -> hidePlayer(player,p));
+        Bukkit.getOnlinePlayers().stream().filter(player -> !p.equals(player)).forEach(player -> hidePlayer(player,p));
     }
 
     public void hideVanished(Player p){
@@ -44,8 +43,7 @@ public class VanishManager {
     }
 
     private void showPlayer(Player p) {
-        Player[] online = Bukkit.getOnlinePlayers();
-        Arrays.stream(online).filter(player -> !p.equals(player)).forEach(player -> showPlayer(player,p));
+        Bukkit.getOnlinePlayers().stream().filter(player -> !p.equals(player)).forEach(player -> showPlayer(player,p));
     }
 
     private void hidePlayer(Player p, Player hide){

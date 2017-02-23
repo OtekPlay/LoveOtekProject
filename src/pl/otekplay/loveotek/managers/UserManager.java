@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserManager {
-
     private final Map<UUID, User> users = new ConcurrentHashMap<>();
 
     public void registerUser(UUID uuid, String name) {

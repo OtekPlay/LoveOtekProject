@@ -49,7 +49,7 @@ public class AsyncPlayerChatListener implements Listener {
                 event.setCancelled(true);
                 return;
             }
-            chat.setLastMessage(System.currentTimeMillis());
+            chat.setLastMessage(System.currentTimeMillis()+ChatSettings.CHAT_COOLDOWN_TIME);
         }
         Replacer replacer = Replacer.build(ChatSettings.MESSAGE_CHAT_GLOBAL_FORMAT);
         replacer.add("%GROUP%", user.getRank() == UserRank.PLAYER ? "" : user.getRank().getPrefix());

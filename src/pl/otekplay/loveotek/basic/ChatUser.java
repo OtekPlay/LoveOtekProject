@@ -3,7 +3,6 @@ package pl.otekplay.loveotek.basic;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import pl.otekplay.loveotek.storage.ChatSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +21,9 @@ public class ChatUser {
 
 
     public boolean canSendHelpop(){
-        return System.currentTimeMillis() - lastMessage > ChatSettings.HELPOP_COOLDOWN_TIME;
+        return System.currentTimeMillis() > helpopLastMessage;
     }
     public boolean canSendMessage(){
-        return System.currentTimeMillis() - lastMessage > ChatSettings.CHAT_COOLDOWN_TIME;
+        return System.currentTimeMillis() > lastMessage;
     }
 }

@@ -7,6 +7,10 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.otekplay.loveotek.commands.admin.backup.BackupCommand;
+import pl.otekplay.loveotek.commands.admin.bans.BanCommand;
+import pl.otekplay.loveotek.commands.admin.bans.BanListCommand;
+import pl.otekplay.loveotek.commands.admin.bans.CheckBanCommand;
+import pl.otekplay.loveotek.commands.admin.bans.UnbanCommand;
 import pl.otekplay.loveotek.commands.admin.chat.ChatCommand;
 import pl.otekplay.loveotek.commands.admin.config.ConfigCommand;
 import pl.otekplay.loveotek.commands.admin.cuboid.CuboidCommand;
@@ -17,6 +21,8 @@ import pl.otekplay.loveotek.commands.admin.hand.HandCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.ClearInventoryCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.EnderchestCommand;
 import pl.otekplay.loveotek.commands.admin.inventory.OpenInventoryCommand;
+import pl.otekplay.loveotek.commands.admin.kick.KickCommand;
+import pl.otekplay.loveotek.commands.admin.mute.MuteCommand;
 import pl.otekplay.loveotek.commands.admin.performance.PerformanceCommand;
 import pl.otekplay.loveotek.commands.admin.root.RootCommand;
 import pl.otekplay.loveotek.commands.admin.server.SaveCommand;
@@ -103,7 +109,8 @@ public class Core extends JavaPlugin {
     private final CobbleXManager cobbleXManager = new CobbleXManager();
     @Getter(AccessLevel.PROTECTED)
     private final KitManager kitManager = new KitManager();
-
+    @Getter(AccessLevel.PROTECTED)
+    private final BanManager banManager = new BanManager();
     @Override
     public void onLoad() {
         instance = this;
@@ -139,6 +146,7 @@ public class Core extends JavaPlugin {
         ConfigUtil.loadSettings(GeneratorSettings.class);
         ConfigUtil.loadSettings(CobbleXSettings.class);
         ConfigUtil.loadSettings(KitSettings.class);
+        ConfigUtil.loadSettings(BanSettings.class);
     }
 
     private void initCommands() {
@@ -186,10 +194,17 @@ public class Core extends JavaPlugin {
         manager.add(new ConfigCommand());
         manager.add(new VersionCommand());
         manager.add(new HandCommand());
+        manager.add(new KickCommand());
+        manager.add(new BanCommand());
+        manager.add(new BanListCommand());
+        manager.add(new UnbanCommand());
+        manager.add(new CheckBanCommand());
+        manager.add(new MuteCommand());
     }
 
     private void initListeners() {
         PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new AsyncPlayerPreLoginListener(),this);
         pm.registerEvents(new BeaconEffectListener(), this);
         pm.registerEvents(new PlayerJoinListener(), this);
         pm.registerEvents(new InventoryOpenListener(), this);
